@@ -1,0 +1,112 @@
+-- 1. Salary > 300 AND deptno = 20 
+SELECT * FROM EMP WHERE SAL > 300 AND DEPTNO = 20; 
+-- 2. Salary > 1200 AND hired before 1982 
+SELECT ENAME, SAL FROM EMP  
+WHERE SAL > 1200 AND HIREDATE < '01-JAN-1982'; -- 3. Salary > 1000 AND deptno = 20 
+SELECT * FROM EMP WHERE SAL > 1000 AND DEPTNO = 20; -- 4. Hired after March 1981 AND salary > 1100 AND deptno = 20 
+SELECT * FROM EMP  
+WHERE HIREDATE > '31-MAR-1981' AND SAL > 1100 AND DEPTNO = 20; -- 5. Salary > 1000 AND < 2200 
+SELECT * FROM EMP WHERE SAL > 1000 AND SAL < 2200; -- 6. Hired after 1980 AND before 1982 AND deptno = 10 
+SELECT ENAME FROM EMP  
+WHERE HIREDATE > '31-DEC-1980' AND HIREDATE < '01-JAN-1982' AND DEPTNO = 10; 
+�
+�
+OR Operator Queries 
+sql -- 1. Deptno = 10 OR 30 
+SELECT * FROM EMP WHERE DEPTNO = 10 OR DEPTNO = 30; -- 2. Salesman OR Analyst 
+SELECT ENAME, DEPTNO FROM EMP WHERE JOB = 'SALESMAN' OR JOB = 'ANALYST'; -- 3. Salary > 2000 OR deptno = 30 
+SELECT * FROM EMP WHERE SAL > 2000 OR DEPTNO = 30; 
+�
+�
+NOT Operator Queries 
+sql -- 1. Not in deptno 20 
+SELECT * FROM EMP WHERE NOT DEPTNO = 20; -- 2. Not manager in deptno 20 
+SELECT * FROM EMP WHERE NOT (JOB = 'MANAGER' AND DEPTNO = 20); -- 3. Clerk in deptno 20 OR 30 
+SELECT ENAME, JOB, DEPTNO FROM EMP WHERE JOB = 'CLERK' AND DEPTNO IN 
+(20,30); -- 4. Clerk OR Manager in deptno 10 OR 20 
+SELECT * FROM EMP WHERE JOB IN ('CLERK','MANAGER') AND DEPTNO IN (10,20); -- 5. Manager/Analyst/Salesman in dept 10,20,30 hired after 1980 before 1988 
+SELECT * FROM EMP  
+WHERE JOB IN ('MANAGER','ANALYST','SALESMAN')  
+AND DEPTNO IN (10,20,30)  
+AND HIREDATE BETWEEN '01-JAN-1981' AND '31-DEC-1987'; -- 6. Clerk, Manager, Salesman, President, Analyst 
+SELECT * FROM EMP WHERE JOB IN 
+('CLERK','MANAGER','SALESMAN','PRESIDENT','ANALYST'); -- 7. Deptno IN (10,20,30,40) 
+SELECT * FROM EMP WHERE DEPTNO IN (10,20,30,40); 
+�
+�
+sql 
+IN Operator Queries -- 1. Deptno IN (10,20,30,40) 
+SELECT * FROM EMP WHERE DEPTNO IN (10,20,30,40); -- 2. Hired after 1980 in dept 10 OR 20 
+SELECT ENAME FROM EMP WHERE HIREDATE > '31-DEC-1980' AND DEPTNO IN (10,20); -- 3. Analyst OR President in dept 10 OR 20 
+SELECT * FROM EMP WHERE JOB IN ('ANALYST','PRESIDENT') AND DEPTNO IN (10,20); -- 4. Deptno IN (10,20,30) AND salary IN (3000,2450,1300,1500,1600) 
+SELECT * FROM EMP WHERE DEPTNO IN (10,20,30) AND SAL IN 
+(3000,2450,1300,1500,1600); 
+�
+�
+NOT IN Operator Queries 
+sql -- 1. Not Manager or Clerk in dept 10,20 
+SELECT * FROM EMP WHERE JOB NOT IN ('MANAGER','CLERK') AND DEPTNO IN (10,20); -- 2. Hired after 1980 AND not in dept 10,20 
+SELECT ENAME FROM EMP WHERE HIREDATE > '31-DEC-1980' AND DEPTNO NOT IN 
+(10,20); 
+�
+�
+BETWEEN Operator Queries 
+sql -- 1. Salary between 1000 and 3000 
+SELECT * FROM EMP WHERE SAL BETWEEN 1000 AND 3000; -- 2. Hired between 1981 and 1986 
+SELECT * FROM EMP WHERE HIREDATE BETWEEN '01-JAN-1981' AND '31-DEC-1986'; -- 3. Name + Salary between 1000 and 3000 
+SELECT ENAME, SAL FROM EMP WHERE SAL BETWEEN 1000 AND 3000; -- 4. Hired between 1982 and 1987 
+SELECT * FROM EMP WHERE HIREDATE BETWEEN '01-JAN-1982' AND '31-DEC-1987'; -- 5. Hired between 1982 and 1986 AND salary between 1300 and 3000 
+SELECT * FROM EMP WHERE HIREDATE BETWEEN '01-JAN-1982' AND '31-DEC-1986'  
+AND SAL BETWEEN 1300 AND 3000; 
+�
+�
+NOT BETWEEN Operator Queries 
+sql -- 1. Not earning salary between 1000 and 3000 
+SELECT * FROM EMP WHERE SAL NOT BETWEEN 1000 AND 3000; -- 2. Hired between 1981 and 1987, not salary 2300–5000, job in 
+Salesman/Analyst/Clerk/Manager, dept 10,20,30 
+SELECT * FROM EMP  
+WHERE HIREDATE BETWEEN '01-JAN-1981' AND '31-DEC-1987' 
+AND SAL NOT BETWEEN 2300 AND 5000 
+AND JOB IN ('SALESMAN','ANALYST','CLERK','MANAGER') 
+AND DEPTNO IN (10,20,30); 
+�
+�
+sql 
+IS NULL / IS NOT NULL -- 1. Employees not earning commission 
+SELECT * FROM EMP WHERE COMM IS NULL; 
+-- 2. Employees not having a manager 
+SELECT * FROM EMP WHERE MGR IS NULL; -- 3. Names of employees earning commission 
+SELECT ENAME FROM EMP WHERE COMM IS NOT NULL; 
+�
+�
+LIKE Operator Queries 
+sql -- 1. Name with 'A' at 2nd position 
+SELECT * FROM EMP WHERE ENAME LIKE '_A%'; -- 2. Names + salaries with 'L' at 2nd position 
+SELECT ENAME, SAL FROM EMP WHERE ENAME LIKE '_L%'; -- 3. Names ending with 'S' 
+SELECT * FROM EMP WHERE ENAME LIKE '%S'; -- 4. Names containing 'A' exactly two times 
+SELECT * FROM EMP WHERE ENAME LIKE '%A%A%' AND ENAME NOT LIKE 
+'%A%A%A%'; -- 5. Second character 'A' 
+SELECT * FROM EMP WHERE ENAME LIKE '_A%'; -- 6. Third character 'R' 
+SELECT ENAME FROM EMP WHERE ENAME LIKE '__R%'; -- 7. First char 'S' and second 'M' 
+SELECT * FROM EMP WHERE ENAME LIKE 'SM%'; -- 8. Last char 'N' and second last 'O' 
+SELECT ENAME FROM EMP WHERE ENAME LIKE '%ON'; -- 9. Fourth char 'T' 
+SELECT * FROM EMP WHERE ENAME LIKE '___T%'; -- 10. Fifth char 'H' 
+SELECT * FROM EMP WHERE ENAME LIKE '____H%'; -- 11. Names contain 'A' but not ending with 'A' 
+SELECT * FROM EMP WHERE ENAME LIKE '%A%' AND ENAME NOT LIKE '%A'; 
+-- 12. Salary with 4 digits 
+SELECT * FROM EMP WHERE SAL BETWEEN 1000 AND 9999; 
+�
+�
+NOT LIKE Operator Queries 
+sql -- 5. Names not containing 'A' 
+SELECT ENAME FROM EMP WHERE ENAME NOT LIKE '%A%'; -- 6. Names containing 'A' OR 'E' 
+SELECT * FROM EMP WHERE ENAME LIKE '%A%' OR ENAME LIKE '%E%'; -- 7. Names containing '%' symbol 
+SELECT * FROM EMP WHERE ENAME LIKE '%[%]%'; 
+�
+�
+Special Operator Assignment Queries 
+sql -- 1. Commission is NULL 
+SELECT * FROM EMP WHERE COMM IS NULL; -- 2. No reporting manager 
+SELECT * FROM EMP WHERE MGR IS NULL; -- 3. Salesmen in dept 30 
+SELECT * FROM EMP WHERE JOB = 'SALESMAN' AND DEPTNO = 30; -- 4. Salesmen in dept 30 salary > 1500 
+SELECT * FROM EMP WHERE JOB = 'SALESMAN' AND DEPTNO = 30 AND SAL > 1500;
